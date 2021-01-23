@@ -34,10 +34,10 @@
         <div id="collapsePerson" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">จัดการบุคลากร:</h6>
-                <a class="collapse-item" href="manage_employee.php">จัดการบุคลากร</a>
+                <!-- <a class="collapse-item" href="manage_employee.php">จัดการบุคลากร</a>
                 <h6 class="collapse-header">ตั้งค่าพื้นฐาน:</h6>
                 <a class="collapse-item" href="#">กำหนดสิทธิ์กลุ่ม</a>
-                <a class="collapse-item" href="#">โครงสร้างหน่วยงาน</a>
+                <a class="collapse-item" href="#">โครงสร้างหน่วยงาน</a> -->
             </div>
         </div>
     </li>
@@ -51,7 +51,7 @@
         <div id="collapseStudent" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">จัดการนักศึกษา:</h6>
-                <a class="collapse-item" href="#">จัดการนักศึกษา</a>
+                <a class="collapse-item" href="manage_student.php">จัดการนักศึกษา</a>
             </div>
         </div>
     </li>

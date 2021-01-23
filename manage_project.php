@@ -135,6 +135,7 @@ include('process/conn.php');
                     <div class="card shadow mb-4" id="card_tree">
                         <div class="card-header py-3">
                             <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add" id="add"><i class="fa fa-plus"></i> เพิ่มโครงการ</button></span>
+                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-info btn-sm" name="btn-sync" id="btn-sync"><i class="fa fa-sync"></i> Sync ข้อมูลโครงการ</button></span>
                             <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">จัดการข้อมูลโครงการ</h6>
                         </div>
                         <div class="card-body" id="tb_project_tag">
@@ -178,13 +179,61 @@ include('process/conn.php');
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body"><p id="alert_text"></p></div>
+                        <div class="modal-body">
+                            <p id="alert_text"></p>
+                        </div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">ตกลง</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Modal Sync -->
+            <div class="modal modal-danger fade" id="SyncModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">เลือกปีที่ Sync</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="syncMessage">
+                            <div class="form-group">
+                                <label for="project_plan_amount">ปี พ.ศ. <span class="text-red">*</span></label>
+                                <input type="text" class="form-control" id="year_sync" name="year_sync" placeholder="ปี พ.ศ." value="2563" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info" id="syncOk">Sync Data</button>
+                            <button type="button" class="btn btn-default pull-left" id="syncCancel">ยกเลิก</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+            <!-- Modal confirm -->
+            <div class="modal modal-danger fade" id="loadModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">กำลังโหลดข้อมูล</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="loadMessage">
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
 
             <?php include('inc/footer.php'); ?>
         </div>
@@ -254,6 +303,75 @@ include('process/conn.php');
                 $('#card_form').show();
             });
 
+            $(document).on('click', '#btn-sync', function() {
+                var modal = $('#SyncModal');
+                modal.modal("show");
+                $('#' + 'syncOk').on('click', function() {
+                    modal.modal("hide");
+                    $year_sync = $('#year_sync').val();
+                    var settings = {
+                        "url": "http://dot.pi.ac.th/api//authentication/login",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "data": JSON.stringify({
+                            "username": "phuriphat",
+                            "password": "1qaz2wsx"
+                        }),
+                    };
+                    $.ajax(settings).done(function(response) {
+                        var access_token = response.access_token;
+                        var modal = $('#' + 'loadModal');
+                        modal.modal("show");
+                        $('#' + 'loadMessage').empty().append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">กำลังโหลข้อมูลนักศึกษา กรุณารอสักครู่...</span></div></div><p style="text-align: center; margin-top: 20px;">กำลังโหลข้อมูลโครงการปี ' + $year_sync + ' กรุณารอสักครู่...</p>');
+                        var settings = {
+                            "url": "http://dot.pi.ac.th/api//sfs/pms/pms002/getAll?CurrentCollegeId=37",
+                            "method": "POST",
+                            "timeout": 0,
+                            "headers": {
+                                "Authorization": "Bearer " + access_token,
+                                "Content-Type": "application/json"
+                            },
+                            "data": JSON.stringify({
+                                "year": $year_sync,
+                                "project_search": null,
+                                "project_status_id": null,
+                                "project_type_id": null,
+                                "project_department_id": null,
+                                "college_id": "37",
+                                "YearType": "fiscal_year"
+                            }),
+                        };
+
+                        $.ajax(settings).done(function(response) {
+                            $.ajax({
+                            url: "process/function_project.php?f=syncProjectData",
+                            method: "POST",
+                            data: {
+                                data: response,
+                                data_year: $year_sync,
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการเสร็จสิ้น</p>');
+                                $('#alert_main').html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> สำเร็จ!</h4>Sync ข้อมูลโครงการสร็จสิ้น</div>');
+                                getproject();
+                            },
+                            error: function(e) {
+                                $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการเสร็จสิ้น</p>');
+                                $('#alert_main').html('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-warning"></i> ล้มเหลว!</h4>' + e.message + '</div>');
+                                getproject();
+                            }
+                        });
+                        });
+                    });
+                });
+            });
+
+
+
             document.getElementById("project_disbursement_amount").addEventListener("change", function() {
                 cal_remain();
             });
@@ -265,7 +383,7 @@ include('process/conn.php');
             function cal_remain() {
                 $project_total_amount = $('#project_total_amount').val();
                 $project_plan_amount = $('#project_plan_amount').val();
-                if (parseFloat($project_plan_amount) > parseFloat($project_total_amount)){
+                if (parseFloat($project_plan_amount) > parseFloat($project_total_amount)) {
                     $('#alert_text').html('แผนเบิกจ่ายมีจำนวนมากกว่า วงเงินอนุมัติ');
                     var modal = $('#' + 'calAlertModal');
                     modal.modal("show");

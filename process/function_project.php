@@ -107,5 +107,71 @@
        }
     }
 
+    function syncProjectData(){
+        include("conn.php");
+        if (isset($_POST["data"])) {
+            $rec = $_POST["data"];
+            $data_year = $_POST["data_year"];
+            $arr_length = count($rec['data']);
+            $count_success = 0;
+            $count_error = 0;
+            for ($i=0 ; $i < $arr_length ; $i++){
+                $project_id = $rec['data'][$i]['project_id'];
+                $project_code = $rec['data'][$i]['project_code'];
+                $project_name = $rec['data'][$i]['project_name'];
+                $date_between = $rec['data'][$i]['date_between'];
+                $project_status = $rec['data'][$i]['project_status_name'];
+                $project_total_amount = $rec['data'][$i]['sum_approval_amount'];
+                $project_plan_amount = $rec['data'][$i]['allocates'];
+                $project_disbursement_amount = $rec['data'][$i]['used'];
+                $project_amount_remain = $rec['data'][$i]['total'];
+                $project_type = $rec['data'][$i]['type'];
+                if ($project_type=="1"){
+                    $project_type = "ด้านงานประจำ";
+                } else  if ($project_type=="2"){
+                    $project_type = "ด้านยุทธศาสตร์/นโยบาย";
+                } else  if ($project_type=="3"){
+                    $project_type = "ด้านทำนุบำรุงศิลปวัฒนธรรม";
+                } else  if ($project_type=="4"){
+                    $project_type = "ด้านบริการวิชาการ";
+                } else  if ($project_type=="5"){
+                    $project_type = "ด้านวิจัยและนวัตกรรม";
+                } else  if ($project_type=="6"){
+                    $project_type = "ด้านผลิตบัณฑิต";
+                } else  if ($project_type=="7"){
+                    $project_type = "ด้่านบริหารจัดการ";
+                }
+                
+                $query_unique = "SELECT * FROM `bcnpb_project` WHERE `project_id_sync`='".$project_id."'";
+                $row = mysqli_query($conn, $query_unique);
+                $rowcount = mysqli_num_rows($row);
+                if ($rowcount == 0 ) {
+                    $query = "INSERT INTO `bcnpb_project`( `project_id_sync`,`project_code`, `project_name`, `date_between`, `project_total_amount`, `project_plan_amount`, `project_disbursement_amount`, `project_amount_remain`, `project_type`, `project_status`, `project_year`) ";
+                    $query .= "VALUES ('".$project_id."','".$project_code."','".$project_name."','".$date_between."','".$project_total_amount."','".$project_plan_amount."','".$project_disbursement_amount."','".$project_amount_remain."','".$project_type."','".$project_status."','".$data_year."')";
+                    if(mysqli_query($conn, $query)) {
+                        $count_success++;
+                    }else{
+                        $count_error++;
+                    }   
+                } else{
+                    $query = "UPDATE `bcnpb_project` SET ";
+                    $query .= "`project_code`= '".$project_code."',`project_name`= '".$project_name."',`date_between`= '".$date_between."',`project_total_amount`= '".$project_total_amount."',`project_plan_amount`= '".$project_plan_amount."',`project_year`= '".$data_year."', ";
+                    $query .= "`project_disbursement_amount`= '".$project_disbursement_amount."',`project_amount_remain`= '".$project_amount_remain."',`project_type`= '".$project_type."',`project_status`='".$project_status."' WHERE `project_id`= '".$project_id."'";
+                    if(mysqli_query($conn, $query)) {
+                        $count_success++;
+                    }else{
+                        $count_error++;
+                    }
+                }
+            }
+            mysqli_close($conn);
+            $message_alert = "ทำรายการสำเร็จ ".$count_success." รายการ";
+            if ($count_error != 0){
+                $message_alert .= "<br/>ทำรายการไม่สำเร็จ ".$count_error." รายการ";
+            }
+            echo $message_alert;
+        }
+    }
+
 
 ?>
