@@ -36,10 +36,10 @@
                     <td style="text-align: center;">'. $i .'</td>
                     <td style="text-align: center;">'. $row["project_code"] .'</td>
                     <td>'. $row["project_name"] .'</td>
-                    <td>'. $row["project_total_amount"] .'</td>
-                    <td>'. $row["project_plan_amount"] .'</td>
-                    <td>'. $row["project_disbursement_amount"] .'</td>
-                    <td>'. $row["project_amount_remain"] .'</td>
+                    <td>'. number_format($row["project_total_amount"],2) .'</td>
+                    <td>'. number_format($row["project_plan_amount"],2) .'</td>
+                    <td>'. number_format($row["project_disbursement_amount"],2) .'</td>
+                    <td>'. number_format($row["project_amount_remain"],2) .'</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-warning btn-flat btn-sm edit_data" id="'. $row["project_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
                         <button type="button" class="btn btn-danger btn-flat btn-sm delete_data" id="'. $row["project_id"] .'" name="'. $row["project_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
@@ -141,7 +141,7 @@
                 } else  if ($project_type=="7"){
                     $project_type = "ด้่านบริหารจัดการ";
                 }
-                
+                $error_msg = "";
                 $query_unique = "SELECT * FROM `bcnpb_project` WHERE `project_id_sync`='".$project_id."'";
                 $row = mysqli_query($conn, $query_unique);
                 $rowcount = mysqli_num_rows($row);
@@ -151,6 +151,7 @@
                     if(mysqli_query($conn, $query)) {
                         $count_success++;
                     }else{
+                        $error_msg .= $query."<br/>";
                         $count_error++;
                     }   
                 } else{
@@ -160,6 +161,7 @@
                     if(mysqli_query($conn, $query)) {
                         $count_success++;
                     }else{
+                        $error_msg .= $query."<br/>";
                         $count_error++;
                     }
                 }
@@ -167,7 +169,7 @@
             mysqli_close($conn);
             $message_alert = "ทำรายการสำเร็จ ".$count_success." รายการ";
             if ($count_error != 0){
-                $message_alert .= "<br/>ทำรายการไม่สำเร็จ ".$count_error." รายการ";
+                $message_alert .= "<br/>ทำรายการไม่สำเร็จ ".$count_error." รายการ<br/>".$error_msg;
             }
             echo $message_alert;
         }
