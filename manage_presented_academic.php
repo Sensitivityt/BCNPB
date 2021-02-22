@@ -225,52 +225,6 @@ include('process/conn.php');
             </div>
             <!-- /.modal -->
 
-            <!-- Modal Sync -->
-            <div class="modal modal-danger fade" id="SyncModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">เลือกปีที่ Sync</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" id="syncMessage">
-                            <div class="form-group">
-                                <label for="project_plan_amount">ปี พ.ศ. <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" id="year_sync" name="year_sync" placeholder="ปี พ.ศ." value="2563" maxlength="4">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-info" id="syncOk">Sync Data</button>
-                            <button type="button" class="btn btn-default pull-left" id="syncCancel">ยกเลิก</button>
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
-
-            <!-- Modal confirm -->
-            <div class="modal modal-danger fade" id="loadModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">กำลังโหลดข้อมูล</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" id="loadMessage">
-                        </div>
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
-
             <?php include('inc/footer.php'); ?>
         </div>
         <!-- End of Content Wrapper -->
@@ -642,76 +596,6 @@ include('process/conn.php');
                     });
                 });
                 $('#' + 'confirmCancel').unbind().one("click", fClose);
-            });
-
-            $(document).on('click', '#btn-sync', function() {
-                var modal = $('#SyncModal');
-                modal.modal("show");
-                $('#' + 'syncOk').on('click', function() {
-                    modal.modal("hide");
-                    $year_sync = $('#year_sync').val();
-                    var settings = {
-                        "url": "http://dot.pi.ac.th/api//authentication/login",
-                        "method": "POST",
-                        "timeout": 0,
-                        "headers": {
-                            "Content-Type": "application/json"
-                        },
-                        "data": JSON.stringify({
-                            "username": "phuriphat",
-                            "password": "1qaz2wsx"
-                        }),
-                    };
-                    $.ajax(settings).done(function(response) {
-                        var access_token = response.access_token;
-                        var modal = $('#' + 'loadModal');
-                        modal.modal("show");
-                        $('#' + 'loadMessage').empty().append('<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="sr-only">กำลังโหลข้อมูลนักศึกษา กรุณารอสักครู่...</span></div></div><p style="text-align: center; margin-top: 20px;">กำลังโหลด กรุณารอสักครู่...</p>');
-                        var settings = {
-                            "url": "http://dot.pi.ac.th/api//rms/research-and-academic-result/academic-journal/search?CurrentCollegeId=37",
-                            "method": "POST",
-                            "timeout": 0,
-                            "headers": {
-                                "Authorization": "Bearer " + access_token,
-                                "Content-Type": "application/json"
-                            },
-                            "data": JSON.stringify({
-                                "search": "",
-                                "publish_year": $year_sync
-                            }),
-                        };
-
-                        $.ajax(settings).done(function(response) {
-                            var i;
-                            for (i = 0; i < response.length; i++) {
-                                var settings = {
-                                    "url": "http://dot.pi.ac.th/api//pi_research_result_detail_academic_journal/getById/" + response[i].research_result_detail_academic_journal_id + "?CurrentCollegeId=37",
-                                    "method": "GET",
-                                    "timeout": 0,
-                                    "headers": {
-                                        "Authorization": "Bearer " + access_token,
-                                        "Content-Type": "application/json"
-                                    },
-                                };
-                                $.ajax(settings).done(function(response) {
-                                    $.ajax({
-                                        url: "process/function_research.php?f=syncResearchData",
-                                        method: "POST",
-                                        data: {
-                                            data: response,
-                                            data_year: $year_sync,
-                                        },
-                                        success: function(data) {
-                                            getresearch();
-                                        },
-                                    });
-                                });
-                            }
-                            $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการเสร็จสิ้น</p>');
-                            $('#alert_main').html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> สำเร็จ!</h4>Sync ข้อมูลโครงการสร็จสิ้น</div>');
-                        });
-                    });
-                });
             });
         });
     </script>

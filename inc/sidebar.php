@@ -80,7 +80,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">ผลงานวิจัยและวิชาการ:</h6>
                 <a class="collapse-item" href="manage_research.php">วารสารวิชาการ</a>
-                <a class="collapse-item" href="#">นำเสนอในเวทีวิชาการ</a>
+                <a class="collapse-item" href="manage_presented_academic.php">นำเสนอในเวทีวิชาการ</a>
                 <a class="collapse-item" href="#">ตำราหรือหนังสือ</a>
                 <a class="collapse-item" href="#">เอกสารประกอบการสอน<br/>หรือคำสอน</a>
                 <a class="collapse-item" href="#">นวัตกรรมหรือสิ่งประดิษฐ์</a>

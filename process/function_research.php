@@ -26,13 +26,18 @@
         ';
         $i = 1;
         while($row = mysqli_fetch_array($result_research)) {
+            if($row["research_type"] == "1"){
+                $research_type = "บทความวิจัย";
+            } else {
+                $research_type = "บทความวิชาการ";
+            }
             $output .= '
                     <tr>
                     <td style="text-align: center;">'. $i .'</td>
                     <td style="text-align: center;">'. $row["publish_year_be"] .'</td>
                     <td>'. $row["research_name_th"] .'</td>
                     <td></td>
-                    <td style="text-align: center;">'. $row["research_type"] .'</td>
+                    <td style="text-align: center;">'. $research_type .'</td>
                     <td class="text-center">
                         <button type="button" class="btn btn-warning btn-flat btn-sm edit_data" id="'. $row["research_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
                         <button type="button" class="btn btn-danger btn-flat btn-sm delete_data" id="'. $row["research_id"] .'" name="'. $row["research_name_th"] .'"><i class="fa fa-trash"></i> ลบ</button>
@@ -115,6 +120,48 @@
             }
             mysqli_close($conn);
        }
+    }
+
+    function syncResearchData(){
+        include("conn.php");
+        if (isset($_POST["data"])) {
+            $rec = $_POST["data"];
+            $research_year = $_POST["data_year"];
+            $research_id_sync = $rec['research_result_detail_academic_journal_id'];
+            $research_type = $rec['type'];
+            $research_name_th = $rec['title_th'];
+            $research_name_en = $rec['title_en'];
+            $research_journal_id = $rec['research_journal_id'];
+            $research_base_id = $rec['research_base_id'];
+            $at_year = $rec['at_year'];
+            $at_no = $rec['at_no'];
+            $at_page = $rec['at_page'];
+            $publish_year_be = $rec['publish_year_be'];
+            $publish_year_ad = $rec['publish_year_ad'];
+            $publish_date = $rec['publish_date'];
+            $research_branch_group_id_lv1 = $rec['research_branch_group_id_lv1'];
+            $research_branch_group_id = $rec['research_branch_group_id'];
+            $research_multidisciplinary_id = $rec['research_multidisciplinary_id'];
+            $keyword = $rec['keyword'];
+            $reference = $rec['reference'];
+            $project_id = $rec['project_id'];
+            
+            $query_unique = "SELECT * FROM `bcnpb_research` WHERE `research_id_sync`='".$research_id_sync."'";
+            $row = mysqli_query($conn, $query_unique);
+            $rowcount = mysqli_num_rows($row);
+            if ($rowcount == 0 ) {
+                $query = "INSERT INTO `bcnpb_research`(`research_id_sync`, `research_type`, `research_name_th`, `research_name_en`, `research_journal_id`, `research_base_id`, `at_year`, `at_no`, `at_page`, `publish_year_be`, `publish_year_ad`, `publish_date`, `research_branch_group_id_lv1`, `research_branch_group_id`, `research_multidisciplinary_id`, `keyword`, `reference`, `project_id`, `research_year`) ";
+                $query .= "VALUES ('".$research_id_sync."','".$research_type."','".$research_name_th."','".$research_name_en."','".$research_journal_id."','".$research_base_id."','".$at_year."','".$at_no."','".$at_page."','".$publish_year_be."','".$publish_year_ad."','".$publish_date."','".$research_branch_group_id_lv1."','".$research_branch_group_id."','".$research_multidisciplinary_id."','".$keyword."','".$reference."','".$project_id."','".$research_year."')";
+                mysqli_query($conn, $query);
+            } else{
+                $query = "UPDATE `bcnpb_research` SET ";
+                $query .= "`research_type`= '".$research_type."',`research_name_th`= '".$research_name_th."',`research_name_en`= '".$research_name_en."',`research_journal_id`= '".$research_journal_id."',`research_base_id`= '".$research_base_id."',`at_year`= '".$at_year."', ";
+                $query .= "`at_no`= '".$at_no."',`at_page`= '".$at_page."',`publish_year_be`= '".$publish_year_be."',`publish_year_ad`='".$publish_year_ad."',`publish_date`='".$publish_date."',`research_branch_group_id_lv1`='".$research_branch_group_id_lv1."', ";
+                $query .= "`research_branch_group_id`= '".$research_branch_group_id."',`keyword`= '".$keyword."',`reference`= '".$reference."',`project_id`= '".$project_id."' ";
+                $query .= " WHERE `research_id_sync`= '".$research_id_sync."' ";
+                mysqli_query($conn, $query);
+            }
+        }
     }
 
 

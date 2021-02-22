@@ -347,24 +347,23 @@ include('process/conn.php');
 
                         $.ajax(settings).done(function(response) {
                             $.ajax({
-                            url: "process/function_project.php?f=syncProjectData",
-                            method: "POST",
-                            data: {
-                                data: response,
-                                data_year: $year_sync,
-                            },
-                            success: function(data) {
-                                console.log(data);
-                                $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการเสร็จสิ้น</p>');
-                                $('#alert_main').html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> สำเร็จ!</h4>Sync ข้อมูลโครงการสร็จสิ้น</div>');
-                                getproject();
-                            },
-                            error: function(e) {
-                                $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการเสร็จสิ้น</p>');
-                                $('#alert_main').html('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-warning"></i> ล้มเหลว!</h4>' + e.message + '</div>');
-                                getproject();
-                            }
-                        });
+                                url: "process/function_project.php?f=syncProjectData",
+                                method: "POST",
+                                data: {
+                                    data: response,
+                                    data_year: $year_sync,
+                                },
+                                success: function(data) {
+                                    $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการเสร็จสิ้น</p>');
+                                    $('#alert_main').html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> สำเร็จ!</h4>Sync ข้อมูลโครงการสร็จสิ้น</div>');
+                                    getproject();
+                                },
+                                error: function(e) {
+                                    $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการล้มเหลว</p>');
+                                    $('#alert_main').html('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-warning"></i> ล้มเหลว!</h4>' + e.message + '</div>');
+                                    getproject();
+                                }
+                            });
                         });
                     });
                 });
