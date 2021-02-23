@@ -89,8 +89,6 @@
                 <a class="collapse-item" href="#">สิทธิบัตร</a>
                 <a class="collapse-item" href="#">ลิขสิทธิ์</a>
                 <a class="collapse-item" href="#">เครื่องหมายการค้า</a>
-                <a class="collapse-item" href="#">เอกสารประกอบการสอน<br/>หรือคำสอน</a>
-                <a class="collapse-item" href="#">นวัตกรรมหรือสิ่งประดิษฐ์</a>
                 <hr/>
                 <h6 class="collapse-header">ตั้งค่าพื้นฐาน:</h6>
                 <a class="collapse-item" href="manage_source_funds.php">แหล่งทุน</a>

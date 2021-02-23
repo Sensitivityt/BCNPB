@@ -4,6 +4,22 @@ if (!isset($_SESSION['person'])) {
     header("location:login.php");
     exit();
 }
+include("process/conn.php");
+$sql_person = "SELECT count(id) as qty_person FROM `dev_hrperson`";
+$result_person = mysqli_query($conn, $sql_person);
+$row_person = mysqli_fetch_array($result_person);
+
+$sql_student = "SELECT count(std_id) as qty_student FROM `bcnpb_student`";
+$result_student = mysqli_query($conn, $sql_student);
+$row_student = mysqli_fetch_array($result_student);
+
+$sql_project = "SELECT count(project_id) as qty_project FROM `bcnpb_project`";
+$result_project = mysqli_query($conn, $sql_project);
+$row_project = mysqli_fetch_array($result_project);
+
+$sql_research = "SELECT count(research_id) as qty_research FROM `bcnpb_research`";
+$result_research = mysqli_query($conn, $sql_research);
+$row_research = mysqli_fetch_array($result_research);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,8 +63,7 @@ if (!isset($_SESSION['person'])) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <h1 class="h3 mb-0 text-gray-800">รายงานผล</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -61,11 +76,12 @@ if (!isset($_SESSION['person'])) {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                                <h5>จำนวนบุคลากร</h5>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row_person['qty_person'] ?> คน</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -79,11 +95,12 @@ if (!isset($_SESSION['person'])) {
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                                <h5>จำนวนนักศึกษา</h5>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row_student['qty_student'] ?> คน</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-user fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -96,21 +113,13 @@ if (!isset($_SESSION['person'])) {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                <h5>จำนวนโครงการ</h5>
                                             </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row_project['qty_project'] ?> โครงการ</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <i class="fas fa-file fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -123,12 +132,13 @@ if (!isset($_SESSION['person'])) {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                <h5>จำนวนงานวิจัย</h5>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $row_research['qty_research'] ?> งาน</div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fas fa-book fa-2x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -145,19 +155,7 @@ if (!isset($_SESSION['person'])) {
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">รายละเอียดโครงการ</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -173,19 +171,7 @@ if (!isset($_SESSION['person'])) {
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
+                                    <h6 class="m-0 font-weight-bold text-primary">สถานะโครงการ</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -194,13 +180,22 @@ if (!isset($_SESSION['person'])) {
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
+                                            <i class="fas fa-circle text-primary"></i> รอดำเนินการ
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
+                                            <i class="fas fa-circle text-info"></i> ดำเนินการ
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
+                                            <i class="fas fa-circle text-warning"></i> ดำเนินการล่าช้า
+                                        </span>
+                                        </span>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-success"></i> เสร็จสิ้น
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fas fa-circle text-danger"></i> ยกเลิก
                                         </span>
                                     </div>
                                 </div>
@@ -237,48 +232,6 @@ if (!isset($_SESSION['person'])) {
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
-
-    <!-- <script type="text/javascript">
-        $(document).ready(function() {
-            var settings = {
-                "url": "http://dot.pi.ac.th/api//authentication/login",
-                "method": "POST",
-                "timeout": 0,
-                "headers": {
-                    "Content-Type": "application/json"
-                },
-                "data": JSON.stringify({
-                    "username": "phuriphat",
-                    "password": "1qaz2wsx"
-                }),
-            };
-
-            $.ajax(settings).done(function(response) {
-                var access_token = response.access_token;
-
-                var settings = {
-                    "url": "http://dot.pi.ac.th/api//crs/manage/sync-regist-data/viewDetail?CurrentCollegeId=37",
-                    "method": "POST",
-                    "timeout": 0,
-                    "headers": {
-                        "Authorization": access_token,
-                        "Content-Type": "application/json"
-                    },
-                    "data": JSON.stringify({
-                        "criteria": {
-                            "college_id": 37,
-                            "curriculum_group_id": 1,
-                            "num_couse": 1
-                        }
-                    }),
-                };
-
-                $.ajax(settings).done(function(response) {
-                    console.log(response);
-                });
-            });
-        });
-    </script> -->
 </body>
 
 </html>
