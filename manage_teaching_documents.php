@@ -53,7 +53,7 @@ include('process/conn.php');
                                     <button type="submit" class="btn btn-success btn-sm" id="insert"><i class="fa fa-save"></i> บันทึก</button>
                                     <input type="hidden" name="research_id" id="research_id" />
                                 </span>
-                                <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">จัดการข้อมูลนำเสนอในเวทีวิชาการ</h6>
+                                <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">จัดการข้อมูลเอกสารประกอบการสอน</h6>
                             </div>
                             <div class="card-body">
                                 <div class="row">
@@ -86,7 +86,7 @@ include('process/conn.php');
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="form-group">
-                                            <label for="research_journal_id">ประเภทนำเสนอในเวทีวิชาการ </label>
+                                            <label for="research_journal_id">ประเภทเอกสารประกอบการสอน </label>
                                             <div id="research_journal_select"></div>
                                         </div>
                                     </div>
@@ -190,9 +190,9 @@ include('process/conn.php');
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4" id="card_tree">
                         <div class="card-header py-3">
-                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add" id="add"><i class="fa fa-plus"></i> เพิ่มนำเสนอในเวทีวิชาการ</button></span>
-                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-info btn-sm" name="btn-sync" id="btn-sync"><i class="fa fa-sync"></i> Sync ข้อมูลนำเสนอในเวทีวิชาการ</button></span>
-                            <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">จัดการข้อมูลนำเสนอในเวทีวิชาการ</h6>
+                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add" id="add"><i class="fa fa-plus"></i> เพิ่มเอกสารประกอบการสอน</button></span>
+                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-info btn-sm" name="btn-sync" id="btn-sync"><i class="fa fa-sync"></i> Sync ข้อมูลเอกสารประกอบการสอน</button></span>
+                            <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">จัดการข้อมูลเอกสารประกอบการสอน</h6>
                         </div>
                         <div class="card-body" id="tb_research_tag">
                         </div>
@@ -207,7 +207,7 @@ include('process/conn.php');
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">ลบข้อมูลนำเสนอในเวทีวิชาการ</h5>
+                            <h5 class="modal-title">ลบข้อมูลเอกสารประกอบการสอน</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

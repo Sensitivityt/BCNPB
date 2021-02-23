@@ -81,9 +81,9 @@
                 <h6 class="collapse-header">ผลงานวิจัยและวิชาการ:</h6>
                 <a class="collapse-item" href="manage_research.php">วารสารวิชาการ</a>
                 <a class="collapse-item" href="manage_presented_academic.php">นำเสนอในเวทีวิชาการ</a>
-                <a class="collapse-item" href="#">ตำราหรือหนังสือ</a>
-                <a class="collapse-item" href="#">เอกสารประกอบการสอน<br/>หรือคำสอน</a>
-                <a class="collapse-item" href="#">นวัตกรรมหรือสิ่งประดิษฐ์</a>
+                <a class="collapse-item" href="manage_textbook_book.php">ตำราหรือหนังสือ</a>
+                <a class="collapse-item" href="manage_teaching_documents.php">เอกสารประกอบการสอน<br/>หรือคำสอน</a>
+                <a class="collapse-item" href="manage_invention_innovation.php">นวัตกรรมหรือสิ่งประดิษฐ์</a>
                 <hr/>
                 <h6 class="collapse-header">ทรัพย์สินทางปัญญา:</h6>
                 <a class="collapse-item" href="#">สิทธิบัตร</a>
@@ -103,7 +103,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
     <!-- Nav Item - Base -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBase" aria-expanded="true" aria-controls="collapseBase">
             <i class="fas fa-fw fa-cog"></i>
             <span>ข้อมูลพื้นฐาน</span>
@@ -114,6 +114,6 @@
                 <a class="collapse-item" href="#">-</a>
             </div>
         </div>
-    </li>
+    </li> -->
 </ul>
 <!-- End of Sidebar -->
