@@ -1,3 +1,8 @@
+<?php
+    if(!isset($_SESSION['person'])){
+        header("location:login.php");
+    }
+?>
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -100,6 +105,9 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+    <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
     <!-- Nav Item - Base -->
     <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBase" aria-expanded="true" aria-controls="collapseBase">
