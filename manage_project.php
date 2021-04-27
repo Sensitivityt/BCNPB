@@ -57,28 +57,28 @@ include('process/conn.php');
                         </div>
 
                         <ul class="nav nav-tabs">
-                            <li class="nav-item">
+                            <li class="nav-item liDetail">
                                 <a class="nav-link active" data-toggle="tab" href="#project_detail">รายละเอียด</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item liActivity">
                                 <a class="nav-link" data-toggle="tab" href="#project_activity">กิจกรรม</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item liOper">
                                 <a class="nav-link" data-toggle="tab" href="#">ผู้ดำเนินการ</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item liDisbursementPlan">
                                 <a class="nav-link" data-toggle="tab" href="#">แผนเบิกจ่าย</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item liDisbursement">
                                 <a class="nav-link" data-toggle="tab" href="#">เบิกจ่าย</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item liBligation">
                                 <a class="nav-link" data-toggle="tab" href="#">ยุทธศาสตร์</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item liMeasure">
                                 <a class="nav-link" data-toggle="tab" href="#">ตัวชี้วัด</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item liAttach">
                                 <a class="nav-link" data-toggle="tab" href="#">แนปไฟล์</a>
                             </li>
                         </ul>
@@ -152,6 +152,7 @@ include('process/conn.php');
             </div>
 
             <!-- Modal Sync -->
+            <div id="div_modelSync"></div>
             <div class="modal modal-danger fade" id="SyncModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -166,7 +167,6 @@ include('process/conn.php');
                                 <label for="project_plan_amount">ปี พ.ศ. <span class="text-red">*</span></label>
                                 <select class="form-control" id="year_sync" name="year_sync" required>
                                 </select>
-                                <!-- <input type="text" class="form-control" id="year_sync" name="year_sync" placeholder="ปี พ.ศ." value="2564" maxlength="4"> -->
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -282,8 +282,8 @@ include('process/conn.php');
                         "Content-Type": "application/json"
                     },
                     "data": JSON.stringify({
-                        "username": "phuriphat",
-                        "password": "1qaz2wsx"
+                        "username": "usercode37",
+                        "password": "usercode37"
                     }),
                 };
                 $.ajax(settings).done(function(response) {
@@ -317,8 +317,8 @@ include('process/conn.php');
                         "Content-Type": "application/json"
                     },
                     "data": JSON.stringify({
-                        "username": "phuriphat",
-                        "password": "1qaz2wsx"
+                        "username": "usercode37",
+                        "password": "usercode37"
                     }),
                 };
                 $.ajax(settings).done(function(response) {
@@ -354,8 +354,8 @@ include('process/conn.php');
                         "Content-Type": "application/json"
                     },
                     "data": JSON.stringify({
-                        "username": "phuriphat",
-                        "password": "1qaz2wsx"
+                        "username": "usercode37",
+                        "password": "usercode37"
                     }),
                 };
                 $.ajax(settings).done(function(response) {
@@ -391,8 +391,8 @@ include('process/conn.php');
                         "Content-Type": "application/json"
                     },
                     "data": JSON.stringify({
-                        "username": "phuriphat",
-                        "password": "1qaz2wsx"
+                        "username": "usercode37",
+                        "password": "usercode37"
                     }),
                 };
                 $.ajax(settings).done(function(response) {
@@ -481,14 +481,66 @@ include('process/conn.php');
                 });
             }
 
-            $(document).on('click', '#add', function() {
+            function setTableProjectActivity() {
+                $("#tb_project_activity").DataTable({
+                    autoWidth: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    order: [],
+                    processing: true,
+                    serverSide: false,
+                    language: lang
+                });
+            }
+
+            $(document).on('click', '#add', function(event) {
+                event.preventDefault();
                 $('#insert').html("<i class='fa fa-save'></i> บันทึก");
                 $('#project_id').val('');
                 $('#card_tree').hide();
                 $('#card_form').show();
+
+                $('#tb_project_objective_tag').html('');
+                $('#tb_project_target_tag').html('');
+                $('#tb_project_product_tag').html('');
+                $('#tb_project_benefits_tag').html('');
+
+                $('#divObj').hide();
+                $('#divTraget').hide();
+                $('#divProduct').hide();
+                $('#divBenefits').hide();
+
+                $('.liDetail').addClass('active');
+                $('.liActivity').hide();
+                $('.liOper').hide();
+                $('.liDisbursementPlan').hide();
+                $('.liDisbursement').hide();
+                $('.liBligation').hide();
+                $('.liMeasure').hide();
+                $('.liAttach').hide();
             });
 
             $(document).on('click', '.edit_data', function() {
+                $('#tb_project_objective_tag').html('');
+                $('#tb_project_target_tag').html('');
+                $('#tb_project_product_tag').html('');
+                $('#tb_project_benefits_tag').html('');
+
+                $('#divObj').show();
+                $('#divTraget').show();
+                $('#divProduct').show();
+                $('#divBenefits').show();
+
+                $('.liDetail').addClass('active');
+                $('.liActivity').show();
+                $('.liOper').show();
+                $('.liDisbursementPlan').show();
+                $('.liDisbursement').show();
+                $('.liBligation').show();
+                $('.liMeasure').show();
+                $('.liAttach').show();
+
                 var project_id = $(this).attr("id");
                 $('#project_id').val(project_id);
                 $.ajax({
@@ -565,6 +617,19 @@ include('process/conn.php');
                                 setTableProjectBenefits();
                             }
                         });
+
+                        // get activity
+                        $.ajax({
+                            url: "process/function_project.php?f=getprojectActivity",
+                            method: "POST",
+                            data: {
+                                project_id: project_id
+                            },
+                            success: function(data) {
+                                $('#tb_project_activity_tag').html(data);
+                                setTableProjectActivity();
+                            }
+                        });
                     }
                 });
 
@@ -580,9 +645,19 @@ include('process/conn.php');
             });
 
             $(document).on('click', '#btn-sync', function() {
-                var modal = $('#SyncModal');
-                modal.modal("show");
-                $('#syncOk').on('click', function() {
+                CreateModal('div_modelSync');
+                var modalSyncHtml = '<div class="form-group">';
+                modalSyncHtml += '<label for="project_plan_amount">ปี พ.ศ. <span class="text-red">*</span></label>';
+                modalSyncHtml += '<select class="form-control" id="year_sync" name="year_sync" required>';
+                modalSyncHtml += '</select>';
+                modalSyncHtml += '</div>';
+                $('#modalbody').html(modalSyncHtml);
+                $('.modalbtn').html('Sync');
+                $('#modaltitle').html('เลือกปีที่ Sync');
+                var modal = $('#modalO2M');
+                LoadYear();
+                
+                $('.modalbtn').click(function() {
                     modal.modal("toggle");
                     $year_sync = $('#year_sync').val();
                     var settings = {
@@ -593,8 +668,8 @@ include('process/conn.php');
                             "Content-Type": "application/json"
                         },
                         "data": JSON.stringify({
-                            "username": "phuriphat",
-                            "password": "1qaz2wsx"
+                            "username": "usercode37",
+                            "password": "usercode37"
                         }),
                     };
                     $.ajax(settings).done(function(response) {
@@ -642,15 +717,14 @@ include('process/conn.php');
                                             access_token: access_token
                                         },
                                         success: function(data) {
-                                            console.log(data);
-                                            // $('#' + 'loadMessage').empty().append('<p style="text-align: center;"><i class="fa fa-check-circle" aria-hidden="true"></i> โหลข้อมูลโครงการเสร็จสิ้น</p>');
-                                            // $('#alert_main').html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> สำเร็จ!</h4>Sync ข้อมูลโครงการสร็จสิ้น</div>');
-                                            // getproject();
+                                            $('#' + 'loadMessage').empty().append('<p style="text-align: center;"><i class="fa fa-check-circle" aria-hidden="true"></i> โหลข้อมูลโครงการเสร็จสิ้น</p>');
+                                            $('#alert_main').html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> สำเร็จ!</h4>Sync ข้อมูลโครงการสร็จสิ้น</div>');
+                                            getproject();
                                         },
                                         error: function(e) {
-                                            // $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการล้มเหลว</p>');
-                                            // $('#alert_main').html('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-warning"></i> ล้มเหลว!</h4>' + e.message + '</div>');
-                                            // getproject();
+                                            $('#' + 'loadMessage').empty().append('<p style="text-align: center; margin-top: 20px;">โหลข้อมูลโครงการล้มเหลว</p>');
+                                            $('#alert_main').html('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-warning"></i> ล้มเหลว!</h4>' + e.message + '</div>');
+                                            getproject();
                                         }
                                     });
                                 });
@@ -664,41 +738,6 @@ include('process/conn.php');
                 LoadPlane();
             });
 
-            // document.getElementById("project_disbursement_amount").addEventListener("change", function() {
-            //     cal_remain();
-            // });
-
-            // document.getElementById("project_plan_amount").addEventListener("change", function() {
-            //     cal_remain();
-            // });
-
-            // function cal_remain() {
-            //     $project_total_amount = $('#project_total_amount').val();
-            //     $project_plan_amount = $('#project_plan_amount').val();
-            //     if (parseFloat($project_plan_amount) > parseFloat($project_total_amount)) {
-            //         $('#alert_text').html('แผนเบิกจ่ายมีจำนวนมากกว่า วงเงินอนุมัติ');
-            //         var modal = $('#' + 'calAlertModal');
-            //         modal.modal("show");
-            //         $('#project_plan_amount').val(0);
-            //         $('#project_disbursement_amount').val(0);
-            //         $('#project_amount_remain').val(0);
-            //         return;
-            //     }
-            //     $project_disbursement_amount = $('#project_disbursement_amount').val();
-            //     $remain = $project_plan_amount - $project_disbursement_amount
-            //     if ($remain >= 0) {
-            //         $('#project_amount_remain').val($remain);
-            //         return;
-            //     } else {
-            //         $('#alert_text').html('ยอดคงเหลือ ติดลบ กรุณาตรวจสอบจำนวนเงิน');
-            //         var modal = $('#' + 'calAlertModal');
-            //         modal.modal("show");
-            //         $('#project_disbursement_amount').val(0);
-            //         $('#project_amount_remain').val(0);
-            //         return;
-            //     }
-            // }
-
             $('#form_project').on('submit', function(event) {
                 event.preventDefault();
                 $.ajax({
@@ -706,6 +745,7 @@ include('process/conn.php');
                     method: "POST",
                     data: $('#form_project').serialize(),
                     success: function(data) {
+                        console.log(data);
                         if ($('#project_id').val() == '') {
                             if (data == 200) {
                                 $('#alert_main').html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> สำเร็จ!</h4>เพิ่มข้อมูลสำเร็จ</div>');
@@ -756,6 +796,696 @@ include('process/conn.php');
                     });
                 });
                 $('#' + 'confirmCancel').unbind().one("click", fClose);
+            });
+
+
+            // One2Many JS
+            function CreateModal(placementId) {
+                var html = '<div class="modal modal-danger fade" id="modalO2M">';
+                html += '<div class="modal-dialog">';
+                html += '<div class="modal-content">';
+                html += '<div class="modal-header">'
+                html += '<h5 class="modal-title" id="modaltitle"></h5>';
+                html += '<button class="close" type="button" data-dismiss="modal" aria-label="Close">';
+                html += '<span aria-hidden="true">×</span>';
+                html += '</button>';
+                html += '</div>';
+                html += '<div class="modal-body" id="modalbody">';
+                html += '</div>';
+                html += '<div class="modal-footer">';
+                html += '<button type="button" class="btn btn-info modalbtn">เพิ่ม</button>';
+                html += '<button class="btn btn-secondary" type="button" data-dismiss="modal">ยกเลิก</button>';
+                html += '</div></div></div></div>'
+                $("#" + placementId).html(html);
+                $("#modalO2M").modal();
+            }
+            // Object
+            $(document).on('click', '#add-obj', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_objective_name">วัตถุประสงค์โครงการ <span class="text-red">*</span></label><textarea class="form-control" id="project_objective_name" name="project_objective_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('เพิ่ม');
+                $('#modaltitle').html('เพิ่มวัตถุประสงค์');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                $('.modalbtn').click(function() {
+                    var project_objective_name = $('#project_objective_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=inserProjectObj",
+                        method: "POST",
+                        data: {
+                            project_id: project_id,
+                            project_objective_name: project_objective_name
+                        },
+                        success: function(data) {
+                            // get Objective
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectObjective",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_objective_tag').html(data);
+                                    setTableProjectObj();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            $(document).on('click', '.obj_delete_data', function() {
+                var project_id = $('#project_id').val();
+                var project_objective_id = $(this).attr("id");
+                var fClose = function() {
+                    modal.modal("hide");
+                };
+                var modal = $('#' + 'confirmModal');
+                modal.modal("show");
+                $('#' + 'confirmMessage').empty().append('ต้องการลบข้อมูลใช่หรือไม่ ?');
+                $('#' + 'confirmOk').on('click', function() {
+                    $.ajax({
+                        url: "process/function_project.php?f=deleteProjectObj",
+                        method: "POST",
+                        data: {
+                            project_objective_id: project_objective_id
+                        },
+                        success: function(data) {
+                            // get Objective
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectObjective",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_objective_tag').html(data);
+                                    setTableProjectObj();
+                                    fClose();
+                                }
+                            });
+                        }
+                    });
+                });
+                $('#' + 'confirmCancel').unbind().one("click", fClose);
+            });
+
+            $(document).on('click', '.obj_edit_data', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_objective_name">วัตถุประสงค์โครงการ <span class="text-red">*</span></label><textarea class="form-control" id="project_objective_name" name="project_objective_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('แก้ไข');
+                $('#modaltitle').html('แก้ไขวัตถุประสงค์');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                var project_objective_id = $(this).attr("id");
+                $.ajax({
+                    url: "process/function_project.php?f=getprojectObjById",
+                    method: "POST",
+                    data: {
+                        project_objective_id: project_objective_id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('#project_objective_name').val(data.project_objective_name);
+                    }
+                });
+                $('.modalbtn').click(function() {
+                    var project_objective_name = $('#project_objective_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=updateProjectObj",
+                        method: "POST",
+                        data: {
+                            project_objective_id: project_objective_id,
+                            project_objective_name: project_objective_name
+                        },
+                        success: function(data) {
+                            // get Objective
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectObjective",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_objective_tag').html(data);
+                                    setTableProjectObj();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            // Traget
+            $(document).on('click', '#add-traget', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_target_name">กลุ่มเป้าหมาย <span class="text-red">*</span></label><textarea class="form-control" id="project_target_name" name="project_target_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('เพิ่ม');
+                $('#modaltitle').html('เพิ่มกลุ่มเป้าหมาย');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                $('.modalbtn').click(function() {
+                    var project_target_name = $('#project_target_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=inserProjectTraget",
+                        method: "POST",
+                        data: {
+                            project_id: project_id,
+                            project_target_name: project_target_name
+                        },
+                        success: function(data) {
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectTarget",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_target_tag').html(data);
+                                    setTableProjectTarget();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            $(document).on('click', '.traget_delete_data', function() {
+                var project_id = $('#project_id').val();
+                var project_target_id = $(this).attr("id");
+                var fClose = function() {
+                    modal.modal("hide");
+                };
+                var modal = $('#' + 'confirmModal');
+                modal.modal("show");
+                $('#' + 'confirmMessage').empty().append('ต้องการลบข้อมูลใช่หรือไม่ ?');
+                $('#' + 'confirmOk').on('click', function() {
+                    $.ajax({
+                        url: "process/function_project.php?f=deleteProjectTraget",
+                        method: "POST",
+                        data: {
+                            project_target_id: project_target_id
+                        },
+                        success: function(data) {
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectTarget",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_target_tag').html(data);
+                                    setTableProjectTarget();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+                $('#' + 'confirmCancel').unbind().one("click", fClose);
+            });
+
+            $(document).on('click', '.traget_edit_data', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_target_name">วัตถุประสงค์โครงการ <span class="text-red">*</span></label><textarea class="form-control" id="project_target_name" name="project_target_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('แก้ไข');
+                $('#modaltitle').html('แก้ไขวัตถุประสงค์');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                var project_target_id = $(this).attr("id");
+                $.ajax({
+                    url: "process/function_project.php?f=getprojectTragetById",
+                    method: "POST",
+                    data: {
+                        project_target_id: project_target_id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('#project_target_name').val(data.project_target_name);
+                    }
+                });
+                $('.modalbtn').click(function() {
+                    var project_target_name = $('#project_target_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=updateProjectTraget",
+                        method: "POST",
+                        data: {
+                            project_target_id: project_target_id,
+                            project_target_name: project_target_name
+                        },
+                        success: function(data) {
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectTarget",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_target_tag').html(data);
+                                    setTableProjectTarget();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            // Product
+            $(document).on('click', '#add-product', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_product_name">ผลผลิต <span class="text-red">*</span></label><textarea class="form-control" id="project_product_name" name="project_product_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('เพิ่ม');
+                $('#modaltitle').html('เพิ่มผลผลิต');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                $('.modalbtn').click(function() {
+                    var project_product_name = $('#project_product_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=inserProjectProduct",
+                        method: "POST",
+                        data: {
+                            project_id: project_id,
+                            project_product_name: project_product_name
+                        },
+                        success: function(data) {
+                            // get Product
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectProduct",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_product_tag').html(data);
+                                    setTableProjectProduct();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            $(document).on('click', '.product_delete_data', function() {
+                var project_id = $('#project_id').val();
+                var project_product_id = $(this).attr("id");
+                var fClose = function() {
+                    modal.modal("hide");
+                };
+                var modal = $('#' + 'confirmModal');
+                modal.modal("show");
+                $('#' + 'confirmMessage').empty().append('ต้องการลบข้อมูลใช่หรือไม่ ?');
+                $('#' + 'confirmOk').on('click', function() {
+                    $.ajax({
+                        url: "process/function_project.php?f=deleteProjectProduct",
+                        method: "POST",
+                        data: {
+                            project_product_id: project_product_id
+                        },
+                        success: function(data) {
+                            // get Product
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectProduct",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_product_tag').html(data);
+                                    setTableProjectProduct();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+                $('#' + 'confirmCancel').unbind().one("click", fClose);
+            });
+
+            $(document).on('click', '.product_edit_data', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_product_name">ผลผลิต <span class="text-red">*</span></label><textarea class="form-control" id="project_product_name" name="project_product_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('แก้ไข');
+                $('#modaltitle').html('แก้ไขผลผลิต');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                var project_product_id = $(this).attr("id");
+                $.ajax({
+                    url: "process/function_project.php?f=getprojectProductById",
+                    method: "POST",
+                    data: {
+                        project_product_id: project_product_id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('#project_product_name').val(data.project_product_name);
+                    }
+                });
+                $('.modalbtn').click(function() {
+                    var project_product_name = $('#project_product_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=updateProjectProduct",
+                        method: "POST",
+                        data: {
+                            project_product_id: project_product_id,
+                            project_product_name: project_product_name
+                        },
+                        success: function(data) {
+                            // get Product
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectProduct",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_product_tag').html(data);
+                                    setTableProjectProduct();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            // Benefits
+            $(document).on('click', '#add-benefits', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_benefits_name">ประโยชน์ที่คาดว่าจะได้รับ <span class="text-red">*</span></label><textarea class="form-control" id="project_benefits_name" name="project_benefits_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('เพิ่ม');
+                $('#modaltitle').html('เพิ่มประโยชน์ที่คาดว่าจะได้รับ');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                $('.modalbtn').click(function() {
+                    var project_benefits_name = $('#project_benefits_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=inserProjectBenefits",
+                        method: "POST",
+                        data: {
+                            project_id: project_id,
+                            project_benefits_name: project_benefits_name
+                        },
+                        success: function(data) {
+                            // get Benefits
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectBenefits",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_benefits_tag').html(data);
+                                    setTableProjectBenefits();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            $(document).on('click', '.benefits_delete_data', function() {
+                var project_id = $('#project_id').val();
+                var project_benefits_id = $(this).attr("id");
+                var fClose = function() {
+                    modal.modal("hide");
+                };
+                var modal = $('#' + 'confirmModal');
+                modal.modal("show");
+                $('#' + 'confirmMessage').empty().append('ต้องการลบข้อมูลใช่หรือไม่ ?');
+                $('#' + 'confirmOk').on('click', function() {
+                    $.ajax({
+                        url: "process/function_project.php?f=deleteProjectBenefits",
+                        method: "POST",
+                        data: {
+                            project_benefits_id: project_benefits_id
+                        },
+                        success: function(data) {
+                            // get Benefits
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectBenefits",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_benefits_tag').html(data);
+                                    setTableProjectBenefits();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+                $('#' + 'confirmCancel').unbind().one("click", fClose);
+            });
+
+            $(document).on('click', '.benefits_edit_data', function() {
+                CreateModal('div_modelObj');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="project_benefits_name">ประโยชน์ที่คาดว่าจะได้รับ <span class="text-red">*</span></label><textarea class="form-control" id="project_benefits_name" name="project_benefits_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('แก้ไข');
+                $('#modaltitle').html('แก้ไขประโยชน์ที่คาดว่าจะได้รับ');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                var project_benefits_id = $(this).attr("id");
+                $.ajax({
+                    url: "process/function_project.php?f=getprojectBenefitsById",
+                    method: "POST",
+                    data: {
+                        project_benefits_id: project_benefits_id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('#project_benefits_name').val(data.project_benefits_name);
+                    }
+                });
+                $('.modalbtn').click(function() {
+                    var project_benefits_name = $('#project_benefits_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=updateProjectBenefits",
+                        method: "POST",
+                        data: {
+                            project_benefits_id: project_benefits_id,
+                            project_benefits_name: project_benefits_name
+                        },
+                        success: function(data) {
+                            // get Benefits
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectBenefits",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_benefits_tag').html(data);
+                                    setTableProjectBenefits();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            // Activity
+            $(document).on('click', '#add-activity', function() {
+                CreateModal('div_modelActivity');
+                var modalDialogActhtml = '<div class="row">';
+                modalDialogActhtml += '    <div class="col-12">';
+                modalDialogActhtml += '        <div class="form-group">';
+                modalDialogActhtml += '            <label for="activity_name">กิจกรรม <span class="text-red">*</span></label>';
+                modalDialogActhtml += '            <textarea class="form-control" id="activity_name" name="activity_name" rows="4"></textarea>';
+                modalDialogActhtml += '        </div>';
+                modalDialogActhtml += '    </div>';
+                modalDialogActhtml += '    <div class="col-12">';
+                modalDialogActhtml += '        <div class="form-group">';
+                modalDialogActhtml += '            <label for="project_activity_status_id">สถานะ <span class="text-red">*</span></label>';
+                modalDialogActhtml += '            <select class="form-control" id="project_activity_status_id" name="project_activity_status_id" required></select>';
+                modalDialogActhtml += '        </div>';
+                modalDialogActhtml += '    </div>';
+                modalDialogActhtml += '    <div class="col-12">';
+                modalDialogActhtml += '        <div class="form-group">';
+                modalDialogActhtml += '            <label for="begin_date">วันที่เริ่ม <span class="text-red">*</span></label>';
+                modalDialogActhtml += '            <input type="date" class="form-control" id="begin_date" name="begin_date" placeholder="วันที่เริ่มต้น" required>';
+                modalDialogActhtml += '        </div>';
+                modalDialogActhtml += '    </div>';
+                modalDialogActhtml += '    <div class="col-12">';
+                modalDialogActhtml += '        <div class="form-group">';
+                modalDialogActhtml += '            <label for="end_date">วันที่สิ้นสุด <span class="text-red">*</span></label>';
+                modalDialogActhtml += '            <input type="date" class="form-control" id="end_date" name="end_date" placeholder="วันที่สิ้นสุด" required>';
+                modalDialogActhtml += '        </div>';
+                modalDialogActhtml += '    </div>';
+                modalDialogActhtml += '</div>';
+                $('#modalbody').html(modalDialogActhtml);
+                $('.modalbtn').html('เพิ่ม');
+                $('#modaltitle').html('เพิ่มกิจกรรม');
+                var modal = $('#modalO2M');
+                var settings = {
+                    "url": "http://dot.pi.ac.th/api//authentication/login",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "username": "usercode37",
+                        "password": "usercode37"
+                    }),
+                };
+                $.ajax(settings).done(function(response) {
+                    var settings = {
+                        "url": "http://dot.pi.ac.th/api//sfs/pms/pms001/getAllForDropdown?CurrentCollegeId=37",
+                        "method": "GET",
+                        "timeout": 0,
+                        "headers": {
+                            "Authorization": "Bearer " + response.access_token,
+                            "Content-Type": "application/json"
+                        }
+                    };
+
+                    $.ajax(settings).done(function(response) {
+                        var response = response.sort(function(a, b) {
+                            return a.value - b.value;
+                        });
+                        var select_status = "";
+                        for (var i = 0; i < response.length; i++) {
+                            select_status += "<option value=" + response[i].value + ">" + response[i].text + "</option>";
+                        }
+                        console.log(select_status);
+                        $('#project_activity_status_id').html(select_status);
+                    });
+                });
+
+                var project_id = $('#project_id').val();
+                $('.modalbtn').click(function(e) {
+                    e.preventDefault();
+                    var activity_name = $('#activity_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=inserProjectActivity",
+                        method: "POST",
+                        data: {
+                            project_id: project_id,
+                            activity_name: activity_name
+                        },
+                        success: function(data) {
+                            // get activity
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectActivity",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_activity_tag').html(data);
+                                    setTableProjectActivity();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            $(document).on('click', '.activity_delete_data', function() {
+                var project_id = $('#project_id').val();
+                var project_activity_id = $(this).attr("id");
+                var fClose = function() {
+                    modal.modal("hide");
+                };
+                var modal = $('#' + 'confirmModal');
+                modal.modal("show");
+                $('#' + 'confirmMessage').empty().append('ต้องการลบข้อมูลใช่หรือไม่ ?');
+                $('#' + 'confirmOk').on('click', function() {
+                    $.ajax({
+                        url: "process/function_project.php?f=deleteProjectActivity",
+                        method: "POST",
+                        data: {
+                            project_activity_id: project_activity_id
+                        },
+                        success: function(data) {
+                            // get activity
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectActivity",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_activity_tag').html(data);
+                                    setTableProjectActivity();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
+                $('#' + 'confirmCancel').unbind().one("click", fClose);
+            });
+
+            $(document).on('click', '.activity_edit_data', function() {
+                CreateModal('div_modelActivity');
+                $('#modalbody').html('<div class="row"><div class="col-12"><div class="form-group"><label for="activity_name">วัตถุประสงค์โครงการ <span class="text-red">*</span></label><textarea class="form-control" id="activity_name" name="activity_name" rows="4"></textarea></div></div></div>');
+                $('.modalbtn').html('แก้ไข');
+                $('#modaltitle').html('แก้ไขวัตถุประสงค์');
+                var modal = $('#modalO2M');
+                var project_id = $('#project_id').val();
+                var project_activity_id = $(this).attr("id");
+                $.ajax({
+                    url: "process/function_project.php?f=getprojectActivityById",
+                    method: "POST",
+                    data: {
+                        project_activity_id: project_activity_id
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        $('#activity_name').val(data.activity_name);
+                    }
+                });
+                $('.modalbtn').click(function() {
+                    var activity_name = $('#activity_name').val();
+                    $.ajax({
+                        url: "process/function_project.php?f=updateProjectActivity",
+                        method: "POST",
+                        data: {
+                            project_activity_id: project_activity_id,
+                            activity_name: activity_name
+                        },
+                        success: function(data) {
+                            // get activity
+                            $.ajax({
+                                url: "process/function_project.php?f=getprojectActivity",
+                                method: "POST",
+                                data: {
+                                    project_id: project_id
+                                },
+                                success: function(data) {
+                                    $('#tb_project_activity_tag').html(data);
+                                    setTableProjectActivity();
+                                    $("#modelObjmsg").html("");
+                                    modal.modal("hide");
+                                }
+                            });
+                        }
+                    });
+                });
             });
         });
     </script>

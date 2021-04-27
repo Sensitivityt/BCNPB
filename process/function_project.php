@@ -82,8 +82,8 @@
                     <td style;="text-align: center;">'. $i .'</td>
                     <td style="text-align: left;">'. $row["project_objective_name"] .'</td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-warning btn-flat btn-sm edit_data" id="'. $row["project_objective_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
-                        <button type="button" class="btn btn-danger btn-flat btn-sm delete_data" id="'. $row["project_objective_id"] .'" name="'. $row["project_objective_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
+                        <button type="button" class="btn btn-warning btn-flat btn-sm obj_edit_data" id="'. $row["project_objective_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
+                        <button type="button" class="btn btn-danger btn-flat btn-sm obj_delete_data" id="'. $row["project_objective_id"] .'" name="'. $row["project_objective_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
                     </td>
                 </tr>
             ';
@@ -123,8 +123,8 @@
                     <td style="text-align: center;">'. $i .'</td>
                     <td style="text-align: left;">'. $row["project_target_name"] .'</td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-warning btn-flat btn-sm edit_data" id="'. $row["project_target_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
-                        <button type="button" class="btn btn-danger btn-flat btn-sm delete_data" id="'. $row["project_target_id"] .'" name="'. $row["project_target_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
+                        <button type="button" class="btn btn-warning btn-flat btn-sm traget_edit_data" id="'. $row["project_target_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
+                        <button type="button" class="btn btn-danger btn-flat btn-sm traget_delete_data" id="'. $row["project_target_id"] .'" name="'. $row["project_target_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
                     </td>
                 </tr>
             ';
@@ -164,8 +164,8 @@
                     <td style="text-align: center;">'. $i .'</td>
                     <td style="text-align: left;">'. $row["project_product_name"] .'</td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-warning btn-flat btn-sm edit_data" id="'. $row["project_product_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
-                        <button type="button" class="btn btn-danger btn-flat btn-sm delete_data" id="'. $row["project_product_id"] .'" name="'. $row["project_product_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
+                        <button type="button" class="btn btn-warning btn-flat btn-sm product_edit_data" id="'. $row["project_product_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
+                        <button type="button" class="btn btn-danger btn-flat btn-sm product_delete_data" id="'. $row["project_product_id"] .'" name="'. $row["project_product_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
                     </td>
                 </tr>
             ';
@@ -188,7 +188,7 @@
         $result_project = mysqli_query($conn, "SELECT * FROM `bcnpb_project_benefits` WHERE project_id=".$project_id);
         $output .='
         <div class="table-responsive">
-            <table class="table table-bordered" id="tb_project_product" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="tb_project_benefits" width="100%" cellspacing="0">
                 <thead>
                         <tr>
                             <th width="10%" style="text-align: center;">ลำดับ</th>
@@ -205,8 +205,8 @@
                     <td style="text-align: center;">'. $i .'</td>
                     <td style="text-align: left;">'. $row["project_benefits_name"] .'</td>
                     <td class="text-center">
-                        <button type="button" class="btn btn-warning btn-flat btn-sm edit_data" id="'. $row["project_benefits_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
-                        <button type="button" class="btn btn-danger btn-flat btn-sm delete_data" id="'. $row["project_benefits_id"] .'" name="'. $row["project_benefits_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
+                        <button type="button" class="btn btn-warning btn-flat btn-sm benefits_edit_data" id="'. $row["project_benefits_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
+                        <button type="button" class="btn btn-danger btn-flat btn-sm benefits_delete_data" id="'. $row["project_benefits_id"] .'" name="'. $row["project_benefits_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
                     </td>
                 </tr>
             ';
@@ -267,7 +267,6 @@
                 echo "500";
             }
         }
-        echo $query;
     }
 
     function deleteproject() {
@@ -275,6 +274,25 @@
         if(isset($_POST["project_id"])) {
             $sql = "DELETE FROM bcnpb_project WHERE project_id = '".$_POST["project_id"]."'";
             if(mysqli_query($conn, $sql)){
+                // Activity
+                $sqlActivity = "DELETE FROM bcnpb_project_activity WHERE project_id = '".$_POST["project_id"]."'";
+                mysqli_query($conn, $sqlActivity);
+
+                // Benefits
+                $sqlBenefits = "DELETE FROM bcnpb_project_benefits WHERE project_id = '".$_POST["project_id"]."'";
+                mysqli_query($conn, $sqlBenefits);
+
+                // Objective
+                $sqlObjective = "DELETE FROM bcnpb_project_objective WHERE project_id = '".$_POST["project_id"]."'";
+                mysqli_query($conn, $sqlObjective);
+
+                // Product
+                $sqlProduct = "DELETE FROM bcnpb_project_product WHERE project_id = '".$_POST["project_id"]."'";
+                mysqli_query($conn, $sqlProduct);
+
+                 // Traget
+                 $sqlTraget = "DELETE FROM bcnpb_project_traget WHERE project_id = '".$_POST["project_id"]."'";
+                 mysqli_query($conn, $sqlTraget);
             }
             mysqli_close($conn);
        }
@@ -370,5 +388,318 @@
             }
             mysqli_close($conn);
         }
+    }
+
+    // Project Obj
+    function inserProjectObj(){
+        include("conn.php");
+        $project_id = mysqli_real_escape_string($conn, $_POST['project_id']);
+        $project_objective_name = mysqli_real_escape_string($conn, $_POST['project_objective_name']);
+        $query = "INSERT INTO `bcnpb_project_objective`( `project_id`, `project_objective_name`) ";
+        $query .= "VALUES ('".$project_id."','".$project_objective_name."')";
+        if(mysqli_query($conn, $query)) {
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    function deleteProjectObj() {
+        include("conn.php");
+        if(isset($_POST["project_objective_id"])) {
+            $sql = "DELETE FROM bcnpb_project_objective WHERE project_objective_id = '".$_POST["project_objective_id"]."'";
+            if(mysqli_query($conn, $sql)){
+            }
+            mysqli_close($conn);
+       }
+    }
+
+    function getprojectObjById(){
+        include("conn.php");
+        if(isset($_POST["project_objective_id"])) {
+            $project_objective_id = mysqli_real_escape_string($conn, $_POST['project_objective_id']);
+            $query = "SELECT * FROM bcnpb_project_objective WHERE project_objective_id=".$project_objective_id;
+            $result = mysqli_query($conn, $query);
+            $row = mysqli_fetch_array($result);
+            echo json_encode($row);
+        }
+    }
+
+    function updateProjectObj(){
+        include("conn.php");
+        $project_objective_id = mysqli_real_escape_string($conn, $_POST['project_objective_id']);
+        $project_objective_name = mysqli_real_escape_string($conn, $_POST['project_objective_name']);
+
+        $query = "UPDATE `bcnpb_project_objective` SET ";
+        $query .= "`project_objective_name`= '".$project_objective_name."' ";
+        $query .= "WHERE `project_objective_id`= '".$project_objective_id."'";
+        if(mysqli_query($conn, $query)) {
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    // Project Traget
+    function inserProjectTraget(){
+        include("conn.php");
+        $project_id = mysqli_real_escape_string($conn, $_POST['project_id']);
+        $project_target_name = mysqli_real_escape_string($conn, $_POST['project_target_name']);
+        $query = "INSERT INTO `bcnpb_project_traget`( `project_id`, `project_target_name`) ";
+        $query .= "VALUES ('".$project_id."','".$project_target_name."')";
+        if(mysqli_query($conn, $query)) {
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    function deleteProjectTraget() {
+        include("conn.php");
+        if(isset($_POST["project_target_id"])) {
+            $sql = "DELETE FROM bcnpb_project_traget WHERE project_target_id = '".$_POST["project_target_id"]."'";
+            if(mysqli_query($conn, $sql)){
+            }
+            mysqli_close($conn);
+       }
+    }
+
+    function getprojectTragetById(){
+        include("conn.php");
+        if(isset($_POST["project_target_id"])) {
+            $project_target_id = mysqli_real_escape_string($conn, $_POST['project_target_id']);
+            $query = "SELECT * FROM bcnpb_project_traget WHERE project_target_id=".$project_target_id;
+            $result = mysqli_query($conn, $query);
+            $row = mysqli_fetch_array($result);
+            echo json_encode($row);
+        }
+    }
+
+    function updateProjectTraget(){
+        include("conn.php");
+        $project_target_id = mysqli_real_escape_string($conn, $_POST['project_target_id']);
+        $project_target_name = mysqli_real_escape_string($conn, $_POST['project_target_name']);
+
+        $query = "UPDATE `bcnpb_project_traget` SET ";
+        $query .= "`project_target_name`= '".$project_target_name."' ";
+        $query .= "WHERE `project_target_id`= '".$project_target_id."'";
+        if(mysqli_query($conn, $query)) {
+            echo $query;
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    // Project Product
+    function inserProjectProduct(){
+        include("conn.php");
+        $project_id = mysqli_real_escape_string($conn, $_POST['project_id']);
+        $project_product_name = mysqli_real_escape_string($conn, $_POST['project_product_name']);
+        $query = "INSERT INTO `bcnpb_project_product`( `project_id`, `project_product_name`) ";
+        $query .= "VALUES ('".$project_id."','".$project_product_name."')";
+        if(mysqli_query($conn, $query)) {
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    function deleteProjectProduct() {
+        include("conn.php");
+        if(isset($_POST["project_product_id"])) {
+            $sql = "DELETE FROM bcnpb_project_product WHERE project_product_id = '".$_POST["project_product_id"]."'";
+            if(mysqli_query($conn, $sql)){
+            }
+            mysqli_close($conn);
+       }
+    }
+
+    function getprojectProductById(){
+        include("conn.php");
+        if(isset($_POST["project_product_id"])) {
+            $project_product_id = mysqli_real_escape_string($conn, $_POST['project_product_id']);
+            $query = "SELECT * FROM bcnpb_project_product WHERE project_product_id=".$project_product_id;
+            $result = mysqli_query($conn, $query);
+            $row = mysqli_fetch_array($result);
+            echo json_encode($row);
+        }
+    }
+
+    function updateProjectProduct(){
+        include("conn.php");
+        $project_product_id = mysqli_real_escape_string($conn, $_POST['project_product_id']);
+        $project_product_name = mysqli_real_escape_string($conn, $_POST['project_product_name']);
+
+        $query = "UPDATE `bcnpb_project_product` SET ";
+        $query .= "`project_product_name`= '".$project_product_name."' ";
+        $query .= "WHERE `project_product_id`= '".$project_product_id."'";
+        if(mysqli_query($conn, $query)) {
+            echo $query;
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    // Project Benefits
+    function inserProjectBenefits(){
+        include("conn.php");
+        $project_id = mysqli_real_escape_string($conn, $_POST['project_id']);
+        $project_benefits_name = mysqli_real_escape_string($conn, $_POST['project_benefits_name']);
+        $query = "INSERT INTO `bcnpb_project_benefits`( `project_id`, `project_benefits_name`) ";
+        $query .= "VALUES ('".$project_id."','".$project_benefits_name."')";
+        if(mysqli_query($conn, $query)) {
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    function deleteProjectBenefits() {
+        include("conn.php");
+        if(isset($_POST["project_benefits_id"])) {
+            $sql = "DELETE FROM bcnpb_project_benefits WHERE project_benefits_id = '".$_POST["project_benefits_id"]."'";
+            if(mysqli_query($conn, $sql)){
+            }
+            mysqli_close($conn);
+       }
+    }
+
+    function getprojectBenefitsById(){
+        include("conn.php");
+        if(isset($_POST["project_benefits_id"])) {
+            $project_benefits_id = mysqli_real_escape_string($conn, $_POST['project_benefits_id']);
+            $query = "SELECT * FROM bcnpb_project_benefits WHERE project_benefits_id=".$project_benefits_id;
+            $result = mysqli_query($conn, $query);
+            $row = mysqli_fetch_array($result);
+            echo json_encode($row);
+        }
+    }
+
+    function updateProjectBenefits(){
+        include("conn.php");
+        $project_benefits_id = mysqli_real_escape_string($conn, $_POST['project_benefits_id']);
+        $project_benefits_name = mysqli_real_escape_string($conn, $_POST['project_benefits_name']);
+
+        $query = "UPDATE `bcnpb_project_benefits` SET ";
+        $query .= "`project_benefits_name`= '".$project_benefits_name."' ";
+        $query .= "WHERE `project_benefits_id`= '".$project_benefits_id."'";
+        if(mysqli_query($conn, $query)) {
+            echo $query;
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+
+    // Tap2
+    function getprojectActivity() {
+        include("conn.php");
+        $project_id = mysqli_real_escape_string($conn, $_POST['project_id']);
+
+        $output = '';
+        $result_project = mysqli_query($conn, "SELECT * FROM `bcnpb_project_activity` WHERE project_id=".$project_id);
+        $output .='
+        <div class="table-responsive">
+            <table class="table table-bordered" id="tb_project_activity" width="100%" cellspacing="0">
+                <thead>
+                        <tr>
+                            <th width="7%" style="text-align: center;">ลำดับ</th>
+                            <th width="23%" style="text-align: center;">กิจกรรม</th>
+                            <th width="10%" style="text-align: center;">สถานะ</th>
+                            <th width="20%" style="text-align: center;">วันที่เริ่ม</th>
+                            <th width="20%" style="text-align: center;">วันที่สิ้นสุด</th>
+                            <th width="20%" style="text-align: center;">ดำเนินการ</th>
+                        </tr>
+                </thead>
+                <tbody>
+        ';
+        $i = 1;
+        while($row = mysqli_fetch_array($result_project)) {
+            $output .= '
+                    <tr>
+                    <td style="text-align: center;">'. $i .'</td>
+                    <td style="text-align: left;">'. $row["activity_name"] .'</td>
+                    <td style="text-align: left;">'. $row["project_status_id"] .'</td>
+                    <td style="text-align: left;">'. $row["begin_date"] .'</td>
+                    <td style="text-align: left;">'. $row["end_date"] .'</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-warning btn-flat btn-sm activity_edit_data" id="'. $row["project_activity_id"] .'"><i class="fa fa-edit"></i> แก้ไข</button>
+                        <button type="button" class="btn btn-danger btn-flat btn-sm activity_delete_data" id="'. $row["project_activity_id"] .'" name="'. $row["activity_name"] .'"><i class="fa fa-trash"></i> ลบ</button>
+                    </td>
+                </tr>
+            ';
+            $i++;
+        }
+        $output .= '
+                </tbody>
+            </table>
+        </div>
+        ';
+        echo $output;
+        mysqli_close($conn);
+    }
+
+    // Project activity
+    function inserProjectActivity(){
+        include("conn.php");
+        $project_id = mysqli_real_escape_string($conn, $_POST['project_id']);
+        $activity_name = mysqli_real_escape_string($conn, $_POST['activity_name']);
+        $query = "INSERT INTO `bcnpb_project_activity`( `project_id`, `activity_name`) ";
+        $query .= "VALUES ('".$project_id."','".$activity_name."')";
+        if(mysqli_query($conn, $query)) {
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
+    }
+
+    function deleteProjectActivity() {
+        include("conn.php");
+        if(isset($_POST["project_activity_id"])) {
+            $sql = "DELETE FROM bcnpb_project_activity WHERE project_activity_id = '".$_POST["project_activity_id"]."'";
+            if(mysqli_query($conn, $sql)){
+            }
+            mysqli_close($conn);
+       }
+    }
+
+    function getprojectActivityById(){
+        include("conn.php");
+        if(isset($_POST["project_activity_id"])) {
+            $project_activity_id = mysqli_real_escape_string($conn, $_POST['project_activity_id']);
+            $query = "SELECT * FROM bcnpb_project_activity WHERE project_activity_id=".$project_activity_id;
+            $result = mysqli_query($conn, $query);
+            $row = mysqli_fetch_array($result);
+            echo json_encode($row);
+        }
+    }
+
+    function updateProjectActivity(){
+        include("conn.php");
+        $project_activity_id = mysqli_real_escape_string($conn, $_POST['project_activity_id']);
+        $activity_name = mysqli_real_escape_string($conn, $_POST['activity_name']);
+
+        $query = "UPDATE `bcnpb_project_activity` SET ";
+        $query .= "`activity_name`= '".$activity_name."' ";
+        $query .= "WHERE `project_activity_id`= '".$project_activity_id."'";
+        if(mysqli_query($conn, $query)) {
+            echo $query;
+            echo "200";
+        }else{
+            echo "500";
+        }
+        $conn->close();
     }
 ?>

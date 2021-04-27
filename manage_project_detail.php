@@ -83,7 +83,7 @@
             </div>
         </div>
         <!-- Objective List -->
-        <div class="row" style="margin-bottom: 15px;">
+        <div class="row" style="margin-bottom: 15px;" id="divObj">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header py-3">
@@ -99,12 +99,12 @@
         </div>
         <!-- Objective List -->
         <!-- Target List -->
-        <div class="row" style="margin-bottom: 15px;">
+        <div class="row" style="margin-bottom: 15px;" id="divTraget"> 
             <div class="col-12">
                 <div class="card">
                     <div class="card-header py-3">
                         <span class="badge badge-default float-right m-2">
-                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add-obj" id="add-obj"><i class="fa fa-plus"></i> เพิ่มกลุ่มเป้าหมาย</button></span>
+                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add-traget" id="add-traget"><i class="fa fa-plus"></i> เพิ่มกลุ่มเป้าหมาย</button></span>
                         </span>
                         <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">กลุ่มเป้าหมาย</h6>
                     </div>
@@ -131,12 +131,12 @@
             </div>
         </div>
         <!-- Product List -->
-        <div class="row" style="margin-bottom: 15px;">
+        <div class="row" style="margin-bottom: 15px;" id="divProduct">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header py-3">
                         <span class="badge badge-default float-right m-2">
-                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add-obj" id="add-obj"><i class="fa fa-plus"></i> เพิ่มผลผลิต</button></span>
+                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add-product" id="add-product"><i class="fa fa-plus"></i> เพิ่มผลผลิต</button></span>
                         </span>
                         <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">ผลผลิต</h6>
                     </div>
@@ -147,12 +147,12 @@
         </div>
         <!-- Product List -->
         <!-- Benefits List -->
-        <div class="row" style="margin-bottom: 15px;">
+        <div class="row" style="margin-bottom: 15px;" id="divBenefits">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header py-3">
                         <span class="badge badge-default float-right m-2">
-                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add-obj" id="add-obj"><i class="fa fa-plus"></i> เพิ่มประโยชน์</button></span>
+                            <span class="badge badge-default float-right m-2"><button type="button" class="btn btn-success btn-sm" name="add-benefits" id="add-benefits"><i class="fa fa-plus"></i> เพิ่มประโยชน์</button></span>
                         </span>
                         <h6 class="card-title d-inline align-middle m-0 font-weight-bold text-primary">ประโยชน์ที่คาดว่าจะได้รับ </h6>
                     </div>
@@ -165,3 +165,9 @@
     </div>
 </form>
 <!-- form -->
+
+
+<div id="div_modelObj"></div>
+<div id="div_modelTraget"></div>
+<div id="div_modelProduct"></div>
+<div id="div_modelBenefits"></div>
